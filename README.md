@@ -76,6 +76,7 @@ This mapping ensures that only relevant products are displayed for each room.
 - Title  
 - Price  
 
+
 ---
 
 ### **Step 5: Conditional Logic**
@@ -150,13 +151,6 @@ babyproofers/
 ├── assets/
 │   ├── babyproofers.css
 │   └── babyproofers.js
-│
-├── screenshots/
-│   ├── form-step-1.png
-│   ├── form-step-2.png
-│   ├── form-step-3.png
-│   └── form-summary.png
-│
 └── README.md
 ```
 
@@ -193,9 +187,8 @@ It allows customers to interactively build their safety product list, visualize 
 |------------|-------------|
 | ![Step 1](screenshots/form-step-1.png) | Room selection screen |
 | ![Step 2](screenshots/form-step-2.png) | Product selection per room |
-| ![Step 3](screenshots/form-step-2.png) | Summary and checkout options |
+| ![Step 3](screenshots/form-step-3.png) | Summary and checkout options |
 | ![Step 4](screenshots/form-summary.png) | Woocommerce Cart |
-
 ---
 
 ### Author
