@@ -1,106 +1,132 @@
-# Baby Proofers - Gravity Form + WooCommerce Integration
+# 🍼 Baby Proofers - Gravity Forms + WooCommerce Integration
 
-## Overview
+## 📘 Overview
 
-This project aims to create an interactive, multi-page **Gravity Form** that allows users to select baby proofing products for each room in their home. The form dynamically loads products from WooCommerce using **Gravity Perks - Populate Anything**, and allows users to either download their selections as a PDF or proceed to checkout for purchase.
+This project implements a dynamic, multi-step **Gravity Form** integrated with **WooCommerce** to create an interactive baby proofing configurator.  
+Users can select safety products for different rooms in their home, view product details directly in the form, and either **download a summary as a PDF** or **proceed to checkout**.
+
+The solution uses **Gravity Perks**, **Gravity Flow**, and **custom PHP hooks** to create a seamless bridge between **WooCommerce products** and **Gravity Forms**.
 
 ---
 
-## 🧩 Core Goals
+## 🧩 Project Goals
 
-* Create a **multi-step form** that guides users through each room in their home.
-* Dynamically populate available **products (WooCommerce)** into the form via **Gravity Perks - Populate Anything**.
-* Enable **conditional logic** based on user selections (e.g., number of bedrooms).
-* Allow users to **download selections (PDF)** or **proceed to checkout** directly.
-* Ensure each room only shows products relevant to that room, based on a predefined spreadsheet.
+- Build a **multi-step guided form** for room-by-room baby proofing.
+- Dynamically populate **WooCommerce products** using **Gravity Perks - Populate Anything**.
+- Show **image-based product choices** with pricing and names.
+- Use **conditional logic** to show rooms based on user input (e.g., number of bedrooms).
+- Provide **PDF download** and **WooCommerce checkout** options at the end.
+- Ensure **room-specific product filtering** based on a spreadsheet mapping.
 
 ---
 
 ## 🧰 Plugins Used
 
-The following plugins are installed and required for this setup:
-
-1. **Gravity Forms Elite**
-2. **Gravity Flow**
-3. **Gravity Flow PDF**
-4. **Gravity Perks - Populate Anything**
-5. **Gravity Perks - Nested Forms**
-6. **WooCommerce**
+| Plugin | Purpose |
+|--------|----------|
+| **Gravity Forms Elite** | Core form builder |
+| **Gravity Flow** | Workflow and submission management |
+| **Gravity Flow PDF** | Generates downloadable PDFs |
+| **Gravity Perks - Populate Anything** | Dynamically populates form fields |
+| **Gravity Perks - Nested Forms** | Embeds room-specific sub-forms |
+| **WooCommerce** | Product management and checkout |
 
 ---
 
 ## ⚙️ Implementation Plan
 
-### Step 1: Add All Products to WooCommerce
+### **Step 1: WooCommerce Product Setup**
+- Import all baby proofing products into WooCommerce.
+- Each product includes:
+  - Title, price, image, SKU
+  - Room mapping data (from spreadsheet)
+  - Visibility: **Public**
 
-* Import all baby proofing products into WooCommerce.
-* Ensure each product has:
+---
 
-  * Title, price, image, and SKU.
-  * Room mapping data (as per spreadsheet).
-  * Visibility set to **public**.
+### **Step 2: Product-to-Room Mapping**
+Products are assigned to rooms using a reference spreadsheet.
 
-### Step 2: Prepare Product-Room Mapping
+| Product Name | Available In Rooms |
+|---------------|-------------------|
+| Cabinet Lock | Kitchen, Bathroom |
+| Corner Guard | Living Room, Bedroom |
+| Outlet Plug Cover | All Rooms |
 
-* Use the provided spreadsheet to define which products belong to which rooms.
-* Example:
+This mapping ensures that only relevant products are displayed for each room.
 
-  | Product Name      | Available In Rooms   |
-  | ----------------- | -------------------- |
-  | Cabinet Lock      | Kitchen, Bathroom    |
-  | Corner Guard      | Living Room, Bedroom |
-  | Outlet Plug Cover | All Rooms            |
+---
 
-### Step 3: Build the Master Gravity Form
+### **Step 3: Master Form + Room Forms**
+- The **Master Form** includes **Nested Room Forms**.
+- Each **Room Form** contains product image choice fields populated from WooCommerce.
+- Example rooms:
+  - Living Room  
+  - Kitchen  
+  - Bathroom  
+  - Bedroom(s) – conditional display  
 
-* Create a **Master Form** that includes all room forms using **Nested Forms**.
-* Each **Room Form** acts as a sub-form with image choices tied to WooCommerce products.
+---
 
-### Step 4: Populate WooCommerce Products into Form Fields
+### **Step 4: Dynamic Product Loading**
+- Implemented using **Gravity Perks - Populate Anything**.
+- Automatically loads WooCommerce product data into image choice fields.
+- Each option displays:
+  - Product Image  
+  - Title  
+  - Price  
 
-* Use **Gravity Perks - Populate Anything** to dynamically load WooCommerce products.
-* Each image choice field displays:
+---
 
-  * Product image
-  * Product title
-  * Product price
+### **Step 5: Conditional Logic**
+Conditional display logic adapts the form based on user input.
 
-### Step 5: Conditional Logic
+Example:
+- If the user selects **2 bedrooms**, only **Bedroom 1** and **Bedroom 2** pages appear.
+- Conditional page logic controls navigation visibility.
 
-* Add logic to show rooms based on user input.
-* Example:
+---
 
-  * If user selects **2 bedrooms**, only show Bedroom 1 and Bedroom 2 forms.
-  * Use **conditional page logic** to manage room visibility.
+### **Step 6: Multi-Page Form Flow**
 
-### Step 6: Multi-Page Form Structure
+| Step | Description |
+|------|--------------|
+| 1 | Welcome Page → User selects number of bedrooms |
+| 2 | Living Room |
+| 3 | Kitchen |
+| 4 | Bathroom |
+| 5 | Bedroom 1 |
+| 6 | Bedroom 2 (conditional) |
+| 7 | Bedroom 3 (conditional) |
+| 8 | Summary / Checkout |
 
-Each page represents a separate room.
+---
 
-**Form Layout Example:**
+### **Step 7: Checkout and PDF Options**
+At the final step, users can:
+- **Download PDF Summary** (via Gravity Flow PDF)
+- **Proceed to Checkout** (WooCommerce integration)
+- **Do Both**
 
-1. Welcome Page → Select number of bedrooms.
-2. Living Room
-3. Kitchen
-4. Bathroom
-5. Bedroom 1
-6. Bedroom 2 (Conditional)
-7. Bedroom 3 (Conditional)
-8. Summary / Checkout Page
+Custom PHP hooks handle adding selected products to the WooCommerce cart automatically.
 
-### Step 7: Checkout and PDF Options
+---
 
-* After the form is completed, provide options:
+### **Step 8: Testing & Validation**
+- Verified all conditional logic and product-room mapping.
+- Ensured correct product population in forms.
+- Confirmed WooCommerce checkout redirection and PDF generation.
 
-  * **Download Selections as PDF** (via Gravity Flow PDF)
-  * **Proceed to Checkout** (auto-add selected items to WooCommerce cart)
-  * **Do Both**
+---
 
-### Step 8: Testing & Validation
+## 🧠 Custom Code
 
-* Test form logic and WooCommerce product mapping.
-* Verify that only selected products are passed to the checkout.
-* Ensure PDF summary correctly lists selected products.
+Custom PHP code was implemented to:
+- Handle **WooCommerce cart population** based on selected form entries.
+- Extend **Populate Anything** for additional filtering logic.
+- Integrate **form submission hooks** for checkout and PDF generation.
+
+All custom snippets are stored in the `/custom-code/` directory and linked within the Git repository.
 
 ---
 
@@ -108,45 +134,72 @@ Each page represents a separate room.
 
 ![Form Flow Diagram](https://example.com/path-to-your-diagram.png)
 
-**Flow Explanation:**
+### Flow Summary
+1. User provides house details.
+2. Form dynamically shows relevant rooms.
+3. Products load based on room mapping.
+4. User selects items visually.
+5. User downloads a summary or proceeds to checkout.
 
-1. User selects house details (number of rooms).
-2. Rooms displayed conditionally.
-3. Each room page shows image-based product choices.
-4. User reviews selections.
-5. User downloads PDF and/or proceeds to WooCommerce checkout.
+---
+
+## 📂 Repository Structure
+
+```
+babyproofers/
+│
+├── custom-code/
+│   ├── populate-woocommerce-products.php
+│   ├── add-to-cart-from-form.php
+│   └── pdf-generation-hooks.php
+│
+├── screenshots/
+│   ├── form-step-1.png
+│   ├── form-step-2.png
+│   └── form-summary.png
+│
+├── readme-assets/
+│   └── flow-diagram.png
+│
+└── README.md
+```
 
 ---
 
 ## ✅ Deliverables
 
-* Fully functional multi-step Gravity Form integrated with WooCommerce.
-* Conditional logic setup for dynamic room display.
-* Product-to-room mapping via spreadsheet.
-* Checkout and PDF output functionality.
+- Fully functional multi-step Gravity Form
+- Conditional logic per user input
+- Dynamic WooCommerce product population
+- Checkout and PDF export integration
+- Tested and validated workflow
 
 ---
 
-## 📂 File Replacement
+## 🔑 Notes
 
-To update the project image or diagram, replace the following URL in the README:
-
-```
-https://example.com/path-to-your-diagram.png
-```
-
-with the actual image URL once uploaded.
-
----
-
-## 🧠 Notes
-
-* Gravity Perks license must be active for Populate Anything and Nested Forms features.
-* Gravity Flow PDF plugin handles all downloadable PDF logic.
-* WooCommerce cart actions may require custom hooks for product addition from form entries.
+- Requires active **Gravity Perks** license for Populate Anything and Nested Forms.
+- **Gravity Flow PDF** manages downloadable PDF logic.
+- **WooCommerce hooks** manage cart actions after form submission.
 
 ---
 
 ## 🧾 Summary
 
-This setup combines Gravity Forms' flexibility with WooCommerce's eCommerce power to create a user-friendly baby proofing configurator. The final result allows users to customize and purchase safety products based on their home layout, with dynamic logic, visual choices, and checkout integration.
+This solution merges **Gravity Forms** flexibility with **WooCommerce** power to create a visual, room-based configurator for baby proofing.  
+It allows customers to interactively build their safety product list, visualize each item, and proceed directly to checkout — creating a complete guided shopping experience.
+
+---
+
+## 📸 Screenshots
+
+| Form Step | Description |
+|------------|-------------|
+| ![Step 1](screenshots/form-step-1.png) | Room selection screen |
+| ![Step 2](screenshots/form-step-2.png) | Product selection per room |
+| ![Step 3](screenshots/form-summary.png) | Summary and checkout options |
+
+---
+
+### Author
+**Ghulam Qadir** – Web Developer (PHP, WordPress, Laravel)
